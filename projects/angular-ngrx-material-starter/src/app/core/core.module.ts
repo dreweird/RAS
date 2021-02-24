@@ -40,6 +40,7 @@ import { AuthEffects } from './auth/auth.effects';
 import {
   selectIsAuthenticated,
   selectUserName,
+  selectUserType,
   selectAuth
 } from './auth/auth.selectors';
 import { authLogin, authLogout } from './auth/auth.actions';
@@ -89,6 +90,7 @@ export {
   LocalStorageService,
   selectIsAuthenticated,
   selectUserName,
+  selectUserType,
   ROUTE_ANIMATIONS_ELEMENTS,
   AnimationsService,
   AuthGuardService,

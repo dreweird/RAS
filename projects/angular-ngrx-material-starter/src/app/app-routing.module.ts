@@ -1,6 +1,5 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule, PreloadAllModules } from '@angular/router';
-import { LoginComponent } from './features/login/login.component';
 
 const routes: Routes = [
   {
@@ -27,6 +26,11 @@ const routes: Routes = [
     path: 'login',
     loadChildren: () =>
       import('./features/login/login.module').then(m => m.LoginModule)
+  },
+  {
+    path: 'search',
+    loadChildren: () =>
+      import('./features/search/search.module').then(m => m.SearchModule)
   },
   {
     path: '**',

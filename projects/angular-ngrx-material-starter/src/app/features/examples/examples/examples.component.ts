@@ -23,27 +23,17 @@ export class ExamplesComponent implements OnInit {
   examples: { link: string; label: string }[];
 
   constructor(private store: Store<State>) {
-    this.user = JSON.parse(localStorage.getItem('ANMS-AUTH'));
-    console.log(parseInt(this.user.user.pid));
-    this.examples = [{ link: 'crud', label: 'Documents' }];
-    console.log(this.user);
-    // if (parseInt(this.user.user.pid) < 100) {
-    //   this.examples = [
-    //     { link: 'authenticated', label: 'Auth' },
-    //     { link: 'bed1', label: 'BED-1' },
-    //     { link: 'bed2', label: 'BED-2' },
-    //     { link: 'bed3', label: 'BED-3' },
-    //     { link: 'district', label: 'DISTRICT' }
-    //   ];
-    // }
-
-    // if (parseInt(this.user.user.pid) == 100) {
-    //   console.log('m&e');
-    //   this.examples = [{ link: 'authenticated', label: 'M&E' }];
-    // }
-    // if (parseInt(this.user.user.pid) > 100) {
-    //   this.examples = [{ link: 'authenticated', label: 'Budgets' }];
-    // }
+    this.examples = [
+      { link: 'travel_order', label: 'Travel Order' },
+      { link: 'special_order', label: 'Special Order' },
+      { link: 'memorandum', label: 'Memorandum' },
+      { link: 'meeting', label: 'Notice of Meeting' },
+      { link: 'advisory', label: 'Advisory' },
+      { link: 'moa', label: 'MOA' },
+      { link: 'dod', label: 'DOD' },
+      { link: 'others', label: 'Others' }
+   
+    ];
   }
 
   ngOnInit(): void {

@@ -62,3 +62,8 @@
   @include angular-material-theme($anms-nature-theme);
   @include custom-components-theme($anms-nature-theme);
 }
+
+html, body {
+  margin: 0;
+  height: 100%;
+}

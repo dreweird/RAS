@@ -9,8 +9,8 @@ import { ROUTE_ANIMATIONS_ELEMENTS } from '../../../core/core.module';
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class AboutComponent implements OnInit {
+  
   routeAnimationsElements = ROUTE_ANIMATIONS_ELEMENTS;
-  releaseButler = require('../../../../assets/release-butler.png');
 
   constructor() {}
 

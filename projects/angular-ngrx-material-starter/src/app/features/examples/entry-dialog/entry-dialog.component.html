@@ -1,0 +1,142 @@
+
+<div *ngIf="delete">
+    <h3 mat-dialog-title>Delete Document</h3>
+    <div mat-dialog-content>
+      <p>Are you sure you want to delete this document with code 
+       <b> {{code}}</b>? This action is irreversible.</p>
+    </div>
+    <div mat-dialog-actions>
+      <button mat-button (click)="onNoClick()">Cancel</button>
+      <button  (click)="removeDoc()" mat-button>Remove</button>
+   </div>
+  </div>
+  
+  <div *ngIf="add || edit">
+    <h3 mat-dialog-title *ngIf="!edit">Add Document</h3>
+    <h3 mat-dialog-title *ngIf="edit">Update Document</h3>
+    <div *ngIf="courier; else doc">
+      <form [formGroup]="entryForm">
+      <div mat-dialog-content>
+        <mat-form-field class="col-md-4">
+          <mat-label>{{labelCode}}:</mat-label>
+          <input matInput formControlName="code" />
+        </mat-form-field>
+        <mat-form-field class="col-md-4" >
+          <mat-label>Date Created:</mat-label>
+          <input matInput [matDatepicker]="dp" formControlName="date" />
+          <mat-datepicker-toggle
+            matSuffix
+            [for]="dp"
+          ></mat-datepicker-toggle>
+          <mat-datepicker #dp></mat-datepicker>
+        </mat-form-field>
+        <mat-form-field class="col-md-4">
+          <mat-label>Recipient:</mat-label>
+          <input matInput formControlName="recipient" />
+        </mat-form-field>
+        <mat-form-field class="col-md-4">
+          <mat-label>Intervention:</mat-label>
+          <input matInput formControlName="intervention" />
+        </mat-form-field>
+        <mat-form-field class="col-md-4" >
+          <mat-label>Date Received:</mat-label>
+          <input matInput [matDatepicker]="dp2" formControlName="date_received" />
+          <mat-datepicker-toggle
+            matSuffix
+            [for]="dp2"
+          ></mat-datepicker-toggle>
+          <mat-datepicker #dp2></mat-datepicker>
+        </mat-form-field>
+        <mat-form-field class="col-md-4">
+          <mat-label>Classification:</mat-label>
+          <mat-select formControlName="classification">
+              <mat-option value="Public">Public</mat-option>
+              <mat-option value="Private">Private</mat-option>
+          </mat-select>
+        </mat-form-field>
+    
+    
+      </div>
+      <div mat-dialog-actions>
+        <button mat-button (click)="onNoClick()">Cancel</button>
+        <button *ngIf="!edit"  (click)="insertDoc()" mat-button [disabled]="!entryForm.valid">Save</button>
+        <button *ngIf="edit"  (click)="updateDoc()" mat-button [disabled]="!entryForm.valid">Update</button>
+      </div>
+      </form>
+    </div>
+    <ng-template #doc>
+      <form [formGroup]="entryForm">
+        <div mat-dialog-content>
+          <mat-form-field class="col-md-4">
+            <mat-label>{{labelCode}}:</mat-label>
+            <input matInput formControlName="code" />
+          </mat-form-field>
+          <mat-form-field class="col-md-4" >
+            <mat-label>Date:</mat-label>
+            <input matInput [matDatepicker]="dp" formControlName="date" />
+            <mat-datepicker-toggle
+              matSuffix
+              [for]="dp"
+            ></mat-datepicker-toggle>
+            <mat-datepicker #dp></mat-datepicker>
+          </mat-form-field>
+          <mat-form-field class="col-md-4">
+            <mat-label>{{labelSubject}}:</mat-label>
+            <input matInput formControlName="subject" />
+          </mat-form-field>
+          <mat-form-field class="col-md-4">
+            <mat-label>Classification:</mat-label>
+              <mat-select formControlName="classification">
+                <mat-option value="Public">Public</mat-option>
+                <mat-option value="Private">Private</mat-option>
+              </mat-select>
+          </mat-form-field>
+          <mat-form-field class="col-md-4" *ngIf="data.type === 'Travel Order'">
+            <mat-label>Received by:</mat-label>
+            <input matInput formControlName="received_by" />
+          </mat-form-field>
+      
+        </div>
+        <div mat-dialog-actions>
+          <button mat-button (click)="onNoClick()">Cancel</button>
+          <button *ngIf="!edit"  (click)="insertDoc()" mat-button [disabled]="!entryForm.valid">Save</button>
+          <button *ngIf="edit"  (click)="updateDoc()" mat-button [disabled]="!entryForm.valid">Update</button>
+        </div>
+        </form>
+    </ng-template>
+ 
+  </div>
+
+  <div *ngIf="upload">
+  <mat-card>  
+      <mat-card-content>  
+        <h2>Attached Files</h2>
+          <ul>  
+              <li *ngFor="let file of files">  
+                <section class="example-section">
+                  <mat-progress-bar
+                      color="accent"
+                      mode="mode"
+                      [value]="file.progress">
+                  </mat-progress-bar>
+                        <div style="position: absolute; padding: 10px; color: white;"> {{file.progress}}% </div>
+                </section>
+                  <span>  
+                        {{file.data.name}}
+                        {{file.progress}}
+                  </span>  
+              </li>  
+          </ul>  
+      </mat-card-content>  
+      <mat-card-actions>  
+        <button mat-button (click)="onNoClick()">Cancel</button>
+          <button mat-raised-button color="accent" (click)="onUpload()">  
+            <fa-icon icon="upload"></fa-icon> 
+          </button>  
+      </mat-card-actions>  
+  </mat-card>
+  
+  <input type="file" #fileUpload id="fileUpload" name="fileUpload" 
+  multiple="multiple" accept="image/*,application/pdf" style="display:none;" />
+  </div>
+  

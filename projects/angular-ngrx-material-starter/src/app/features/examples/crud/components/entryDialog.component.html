@@ -16,19 +16,27 @@
   <h3 mat-dialog-title *ngIf="edit">Update Document</h3>
   <form [formGroup]="entryForm">
   <div mat-dialog-content>
-    <mat-form-field class="col-md-6">
-      <mat-label>Document Type</mat-label>
+    <mat-form-field class="col-md-4">
+      <mat-label>Document Type:</mat-label>
       <mat-select formControlName="type" required>
-        <mat-option value="Highlights of Meeting">Highlights of Meeting</mat-option>
         <mat-option value="Resolution">Resolution</mat-option>
-        <mat-option value="Organizational Profile">Organizational Profile</mat-option>
+        <mat-option value="Highlights of Meeting">Highlights of Meeting</mat-option>
+        <!-- <mat-option value="Organizational Profile">Organizational Profile</mat-option>
         <mat-option value="Member Profile">Member Profile</mat-option>
         <mat-option value="Activity Design">Activity Design</mat-option>
-        <mat-option value="Incomming Documents">Incomming Documents</mat-option>
+        <mat-option value="Incomming Documents">Incomming Documents</mat-option> -->
       </mat-select>
     </mat-form-field>
-    <mat-form-field class="col-md-3">
-      <mat-label>Year</mat-label>
+    <mat-form-field class="col-md-4" *ngIf="entryForm.value.type === 'Resolution'">
+      <mat-label>Resolution Title:</mat-label>
+      <input matInput formControlName="res_title" />
+    </mat-form-field>
+    <mat-form-field class="col-md-4" *ngIf="entryForm.value.type === 'Resolution'">
+      <mat-label>Resolution Number:</mat-label>
+      <input matInput formControlName="res_number" />
+    </mat-form-field>
+    <mat-form-field class="col-md-4">
+      <mat-label>Series of/Year:</mat-label>
       <mat-select formControlName="year" required>
         <mat-option value="2020">2020</mat-option>
         <mat-option value="2019">2019</mat-option>
@@ -42,7 +50,36 @@
         <mat-option value="2011">2011</mat-option>
       </mat-select>
     </mat-form-field>
-    <mat-form-field class="col-md-3">
+    <mat-form-field class="col-md-4" *ngIf="entryForm.value.type === 'Resolution'">
+      <mat-label>Date of Endorsement:</mat-label>
+      <input matInput [matDatepicker]="dp" formControlName="res_date_endorsement" />
+      <mat-datepicker-toggle
+        matSuffix
+        [for]="dp"
+      ></mat-datepicker-toggle>
+      <mat-datepicker #dp></mat-datepicker>
+    </mat-form-field>
+    <mat-form-field class="col-md-4" *ngIf="entryForm.value.type === 'Resolution'">
+      <mat-label>Endorsed to:</mat-label>
+      <input matInput formControlName="res_endorsed_to" />
+    </mat-form-field>
+    <mat-form-field class="col-md-4" *ngIf="entryForm.value.type === 'Resolution'">
+      <mat-label>Adopted:</mat-label>
+      <mat-select formControlName="adopted" required>
+        <mat-option value="yes">Yes</mat-option>
+        <mat-option value="no">No</mat-option>
+      </mat-select>
+    </mat-form-field>
+    <mat-form-field class="col-md-4" *ngIf="entryForm.value.type === 'Resolution' && entryForm.value.adopted === 'yes'">
+      <mat-label>Date of Adoptation:</mat-label>
+      <input matInput [matDatepicker]="picker3" formControlName="date_adopted" />
+      <mat-datepicker-toggle
+        matSuffix
+        [for]="picker3"
+      ></mat-datepicker-toggle>
+      <mat-datepicker #picker3></mat-datepicker>
+    </mat-form-field>
+    <mat-form-field class="col-md-4">
       <mat-label>AFC</mat-label>
       <mat-select formControlName="afc"  required>
         <mat-option value="RAFC">RAFC</mat-option>
@@ -51,63 +88,55 @@
         <mat-option value="MAFC">MAFC</mat-option>
       </mat-select>
     </mat-form-field>
-    <mat-form-field class="col-md-3">
+    <mat-form-field class="col-md-4">
       <mat-label>Provice</mat-label>
-      <mat-select formControlName="province" required>
-        <mat-option value="Agusan del Norte">Agusan del Norte</mat-option>
-        <mat-option value="Agusan del Sur">Agusan del Sur</mat-option>
-        <mat-option value="audi">Surigao del Norte</mat-option>
-        <mat-option value="audi">Surigao del Sur</mat-option>
-        <mat-option value="audi">Province of Dinagat Islands</mat-option>
-        <mat-option value="audi">Butuan City</mat-option>
+      <mat-select formControlName="province">
+        <mat-option *ngFor="let p of (location | province)" 
+       [value]="p.name">
+       {{p.name}}
+        </mat-option>
       </mat-select>
     </mat-form-field>
-    <mat-form-field class="col-md-3">
+    <mat-form-field class="col-md-4">
       <mat-label>Municipality</mat-label>
-      <mat-select formControlName="municipal" required>
-        <mat-option value="audi">Bayugan City</mat-option>
-        <mat-option value="audi">Bunawan</mat-option>
-        <mat-option value="audi">Esperanza</mat-option>
-        <mat-option value="audi">San Francisco</mat-option>
-        <mat-option value="audi">San Luis</mat-option>
-        <mat-option value="audi">Sta. Josefa</mat-option>
+      <mat-select formControlName="municipal">
+        <mat-option *ngFor="let m of (location | municipal : entryForm.value.province)"
+        [value]="m.name">{{m.name}}</mat-option>
       </mat-select>
     </mat-form-field>
-    <mat-form-field class="col-md-3">
+    <mat-form-field class="col-md-4">
+      <mat-label>Classification</mat-label>
+      <mat-select formControlName="classification" required>
+        <mat-option value="Funded">Funded</mat-option>
+        <mat-option value="Non-Funded">Non-Funded</mat-option>
+      </mat-select>
+    </mat-form-field>
+    <mat-form-field class="col-md-4">
       <mat-label>Date of Conduct</mat-label>
-      <input matInput [matDatepicker]="picker1" formControlName="date_conducted" />
-      <mat-datepicker-toggle
-        matSuffix
-        [for]="picker1"
-      ></mat-datepicker-toggle>
+      <input #ref matInput [matDatepicker]="picker1"  
+      formControlName="date_conducted" 
+      (dateInput)="addEvent(ref.value)" 
+      (dateChange)="addEvent(ref.value)" required/>
+      <mat-datepicker-toggle matSuffix [for]="picker1" ></mat-datepicker-toggle>
       <mat-datepicker #picker1></mat-datepicker>
     </mat-form-field>
-    <mat-form-field class="col-md-3">
-      <mat-label>Status of Document</mat-label>
-      <mat-select formControlName="status" required>
-        <mat-option value="audi">Funded</mat-option>
-        <mat-option value="audi">Non-Funded</mat-option>
-      </mat-select>
+    <mat-form-field class="col-md-4">
+      <mat-label>Deadline</mat-label>
+      <input matInput [(ngModel)]="deadline" 
+      [ngModelOptions]="{standalone: true}" disabled/>
     </mat-form-field>
-    <mat-form-field class="col-md-6">
+    <!-- <mat-form-field class="col-md-4">
+      <mat-label>Deadline</mat-label>
+      <input matInput [matDatepicker]="picker" formControlName="deadline" readonly>
+      <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+      <mat-datepicker #picker></mat-datepicker>
+    </mat-form-field> -->
+    <mat-form-field class="col-md-4">
       <mat-label>Remarks</mat-label>
       <input matInput formControlName="remarks" />
     </mat-form-field>
-    <mat-form-field class="col-md-3">
-      <mat-label>Deadline</mat-label>
-      <input matInput [matDatepicker]="picker" formControlName="deadline"/>
-      <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
-      <mat-datepicker #picker></mat-datepicker>
-    </mat-form-field>
-    <mat-form-field class="col-md-3">
-      <mat-label>Date Submitted to PCAF</mat-label>
-      <input matInput [matDatepicker]="picker3" formControlName="date_submitted" />
-      <mat-datepicker-toggle
-        matSuffix
-        [for]="picker3"
-      ></mat-datepicker-toggle>
-      <mat-datepicker #picker3></mat-datepicker>
-    </mat-form-field>
+
+
   </div>
   <div mat-dialog-actions>
     <button mat-button (click)="onNoClick()">Cancel</button>

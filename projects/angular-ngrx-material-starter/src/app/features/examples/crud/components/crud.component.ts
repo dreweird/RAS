@@ -44,7 +44,14 @@ export class CrudComponent {
   frameworkComponents;
   context;
   rowSelection;
-  //  public modules: Module[] = AllCommunityModules;
+
+ 
+  columnDefs2;
+  rowData2;
+  frameworkComponents2;
+  gridApi2;
+  gridColumnApi2;
+
 
   static createBook(): Book {
     return {
@@ -55,6 +62,21 @@ export class CrudComponent {
     };
   }
 
+  rowResolution(){
+    this.Rafcservice.findType('Resolution').subscribe(data => {
+      console.log(data);
+      this.rowData = data;
+      this.cd.markForCheck();
+    });
+  }
+
+  rowMeetings(){
+    this.Rafcservice.findType('Highlights of Meeting').subscribe(data => {
+      console.log(data);
+      this.rowData2 = data;
+      this.cd.markForCheck();
+    });
+  }
   constructor(
     public store: Store<State>,
     public fb: FormBuilder,
@@ -63,33 +85,120 @@ export class CrudComponent {
     public Rafcservice: PmisService,
     private cd: ChangeDetectorRef
   ) {
-    this.Rafcservice.getAllDoc().subscribe(data => {
-      console.log(data);
-      this.rowData = data;
-      this.cd.markForCheck();
-    });
+    this.rowResolution();
+    this.rowMeetings();
+
     this.columnDefs = [
       {
         headerName: 'CODE',
         field: 'code',
         width: 180,
         filter: 'agTextColumnFilter',
+        pinned: 'left',
+        hide: true
+      },
+      {
+        headerName: 'Title',
+        field: 'res_title',
+        width: 180,
+        filter: 'agTextColumnFilter',
         pinned: 'left'
       },
       {
-        headerName: 'Doc Type',
-        field: 'type',
+        headerName: 'Resolution No.',
+        field: 'res_number',
         width: 180
       },
       {
-        headerName: 'Year',
+        headerName: 'Series of:',
         field: 'year',
-        width: 90,
+        width: 120,
         filter: 'agNumberColumnFilter'
+      },
+      {
+        headerName: 'Date of Endorsement',
+        field: 'res_date_endorsement',
+        width: 120,
+        filter: 'agTextColumnFilter',
+        cellRenderer: data => {
+          return data.value ? new Date(data.value).toLocaleDateString() : '';
+        }
+      },
+      {
+        headerName: 'Endorsed to',
+        field: 'res_endorsed_to',
+        width: 180,
+        filter: 'agTextColumnFilter',
       },
       {
         headerName: 'AFC',
         field: 'afc',
+        width: 140
+      },
+      {
+        headerName: 'Adapted',
+        field: 'adopted',
+        width: 100
+      },
+      {
+        headerName: 'Date of Adaptation',
+        field: 'date_adopted',
+        width: 120,
+        filter: 'agTextColumnFilter',
+        cellRenderer: data => {
+          return data.value ? new Date(data.value).toLocaleDateString() : '';
+        }
+      },
+      {
+        headerName: 'HUC/PROVINCE',
+        field: 'province',
+        width: 180,
+        filter: 'agTextColumnFilter'
+      },
+      {
+        headerName: 'CITY/MUNICIPALITY',
+        field: 'municipal',
+        width: 180,
+        filter: 'agTextColumnFilter'
+      },
+      {
+        headerName: 'Date of Conduct',
+        field: 'date_conducted',
+        width: 180,
+        filter: 'agTextColumnFilter',
+        cellRenderer: data => {
+          return data.value ? new Date(data.value).toLocaleDateString() : '';
+        }
+      },
+      {
+        headerName: 'Classification',
+        field: 'classification',
+        width: 140
+      },
+      {
+        headerName: 'Remarks',
+        field: 'remarks',
+        width: 180
+      },
+      {
+        headerName: 'Actions',
+        width: 270,
+        cellRendererFramework: ActionComponent
+      }
+    ];
+    this.columnDefs2 = [
+      {
+        headerName: 'CODE',
+        field: 'code',
+        width: 180,
+        filter: 'agTextColumnFilter',
+        pinned: 'left',
+        hide: true
+      },
+      {
+        headerName: 'AFC',
+        field: 'afc',
+        pinned: 'left',
         width: 140
       },
       {
@@ -114,23 +223,14 @@ export class CrudComponent {
         }
       },
       {
-        headerName: 'Status of Document',
-        field: 'status',
+        headerName: 'Classification',
+        field: 'classification',
         width: 140
       },
       {
         headerName: 'Remarks',
         field: 'remarks',
         width: 180
-      },
-      {
-        headerName: 'Date Submitted to PCAF',
-        field: 'date_submitted',
-        width: 180,
-        filter: 'agTextColumnFilter',
-        cellRenderer: data => {
-          return data.value ? new Date(data.value).toLocaleDateString() : '';
-        }
       },
       {
         headerName: 'Actions',
@@ -148,6 +248,7 @@ export class CrudComponent {
     this.frameworkComponents = {
       actionComponent: ActionComponent
     };
+    
   }
 
   select(book: Book) {
@@ -225,5 +326,10 @@ export class CrudComponent {
   onGridReady(params) {
     this.gridApi = params.api;
     this.gridColumnApi = params.columnApi;
+  }
+
+  onGridReady2(params) {
+    this.gridApi2 = params.api;
+    this.gridColumnApi2 = params.columnApi;
   }
 }

@@ -9,16 +9,38 @@ import { tap } from 'rxjs/operators';
   providedIn: 'root'
 })
 export class PmisService {
-  // apiRoot: string = 'http://172.16.130.10:3115';
+  apiRoot: string = 'http://172.16.128.38:3800';
   //apiRoot: string = 'http://210.5.100.46:3116';
-  apiRoot: string = 'http://localhost:5000';
+  //  apiRoot: string = 'http://localhost:3800';
 
   constructor(private http: HttpClient) {}
+
+  searchDoc(search) {
+    const url = `${this.apiRoot}/searchDocuments/` + search;
+    return this.http.get<any>(url).pipe(
+      tap(_ => console.log(`fetched document search=${search}`)),
+      catchError(this.handleError)
+    );
+  }
+
+  add_files(newFile) {
+    const url = `${this.apiRoot}/add-files`;
+    return this.http.post(url, { newFile });
+  }
+
+
+
+  getDocuments(id) {
+    const url = `${this.apiRoot}/documents/` + id;
+    return this.http.get(url);
+  }
 
   login(username, password) {
     const url = `${this.apiRoot}/login`;
     return this.http.post(url, { username, password });
   }
+
+ 
 
   upload(formData) {
     const url = `${this.apiRoot}/multiple-upload`;
@@ -28,10 +50,8 @@ export class PmisService {
     });
   }
 
-  add_files(newFile) {
-    const url = `${this.apiRoot}/add-files`;
-    return this.http.post(url, { newFile });
-  }
+
+ 
 
   findFiles(code: string): Observable<Document> {
     const url = `${this.apiRoot}/files/` + code;
@@ -46,15 +66,22 @@ export class PmisService {
     return this.http.delete(url);
   }
 
+  deleteUploadedFile(filename){
+    const url = `${this.apiRoot}/delete-uploaded-file/` + filename;
+    return this.http.delete(url);
+  }
+
   getAllDoc() {
     const url = `${this.apiRoot}/documents`;
     return this.http.get(url);
   }
 
-  findDoc(code: string): Observable<Document> {
-    const url = `${this.apiRoot}/documents/` + code;
+
+
+  getAllDocumentType(type: string): Observable<Document> {
+    const url = `${this.apiRoot}/documentsType/` + type;
     return this.http.get<any>(url).pipe(
-      tap(_ => console.log(`fetched document code=${code}`)),
+      tap(_ => console.log(`fetched document code=${type}`)),
       catchError(this.handleError)
     );
   }
@@ -65,12 +92,12 @@ export class PmisService {
   }
 
   updateDoc(entries) {
-    const url = `${this.apiRoot}/documents/` + entries.code;
+    const url = `${this.apiRoot}/documents/` + entries.id;
     return this.http.put(url, { entries });
   }
 
-  removeDoc(code) {
-    const url = `${this.apiRoot}/documents/` + code;
+  removeDoc(id) {
+    const url = `${this.apiRoot}/documents/` + id;
     return this.http.delete(url);
   }
 
@@ -83,7 +110,7 @@ export class PmisService {
       // Server-side errors
       errorMessage = `Error Code: ${error.status}\nMessage: ${error.message}`;
     }
-    window.alert(errorMessage);
+    // window.alert(errorMessage);
     return throwError(errorMessage);
   }
 }

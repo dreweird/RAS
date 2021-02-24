@@ -42,12 +42,12 @@ export class AuthEffects {
     () =>
       this.actions$.pipe(
         ofType(authLoginSuccess),
-        tap(data => {
-          console.log(data.user);
-          this.router.navigate(['']);
+        tap((user: any) => {
+          this.router.navigate(['doc']);
           this.localStorageService.setItem(AUTH_KEY, {
             isAuthenticated: true,
-            user: data.user
+            isAdmin: user.user.isAdmin,
+            username: user.user.username
           });
         })
       ),
@@ -62,7 +62,8 @@ export class AuthEffects {
           this.router.navigate(['']);
           this.localStorageService.setItem(AUTH_KEY, {
             isAuthenticated: false,
-            user: {}
+            isAdmin: false,
+            username: null
           });
         })
       ),
@@ -76,7 +77,8 @@ export class AuthEffects {
         tap(() => {
           this.localStorageService.setItem(AUTH_KEY, {
             isAuthenticated: false,
-            user: {}
+            isAdmin: false,
+            username: null
           });
         })
       ),

@@ -1,28 +1,97 @@
-<div class="container" rtl>
+<div class="container responsive-text" rtl>
     <div class="row">
-      <div class="col-md-8">
-        <h1>Details</h1>
-        <div *ngIf="doc">
-        <b>Document Code: </b>  {{ doc?.code }} <br>
-         <b> Document Type: </b>{{ doc?.type }} <br>
-         <b> Date Conducted: </b>{{ doc?.date_conducted }} <br>
-         <b> Attached Files: </b>
-          <ul>
-            <li *ngFor="let f of files; let i = index">{{f.file_name}} - 
-              <button type="button" mat-button color="warn" (click)="delete(f, i)"  matTooltip="Detached">
-              <fa-icon icon="trash"></fa-icon> </button>
-              <button type="button" mat-button color="accent" (click)="loadPdf(f.file_name)"  matTooltip="View">
-                <fa-icon icon="eye"></fa-icon>
-            </button>
-          </li>
+      <div class="col-md">
+        <button mat-stroked-button (click)="backClicked()" color="primary"> Go back</button>
 
-          </ul>
+          <table>
+            <tr>
+              <td> <b>Document Type: </b></td> <td > {{ doc?.type }}</td>
+            </tr>
+            <tr>
+              <td> <b>ID Number: </b></td> <td > {{ doc?.code }}</td>
+            </tr>
+            <tr>
+              <td> <b>Date: </b></td> <td > {{ doc?.date | date }}</td>
+            </tr>
+            <tr *ngIf="isNewType == 0">
+              <td> <b>Subject: </b></td> <td > {{ doc?.subject }}</td>
+            </tr>
+            <tr *ngIf="isNewType == 1">
+              <td> <b>Recipient: </b></td> <td > {{ doc?.recipient }}</td>
+            </tr>
+            <tr *ngIf="isNewType == 1">
+              <td> <b>Intervention: </b></td> <td > {{ doc?.intervention }}</td>
+            </tr>
+            <tr>
+              <td> <b>Attached Files: </b></td> <td ></td>
+            </tr>
+        
+          </table>
+          <div *ngIf="doc?.classification == 'Private'">
+            <p class="private">This document was classified as private. 
+              Reproduction of this document is prohibited except with the permission of the issuing officer or higher authority.
+            For any querries, please contact the DA Record Section.</p>
+            <div class="col-md-12" *ngIf="user?.isAdmin == 1 ">
+              <ul>
+                <li *ngFor="let f of files; let i = index">{{f.file_name}} - 
+                  <button type="button" mat-button color="warn" (click)="delete(f, i)"  matTooltip="Detached">
+                  <fa-icon icon="trash"></fa-icon> </button>
+                  <button type="button" mat-button color="accent" (click)="loadPdf(f.file_name)"  matTooltip="View">
+                    <fa-icon icon="eye"></fa-icon>
+                </button>
+              </li>
+    
+              </ul>
+              <div *ngIf="isPDF">
+                <h2>PDF Viewer</h2>
+                <div *ngIf="isLoaded" style="text-align: center;">
+                  <button (click)="prevPage()" [disabled]="page === 1">Prev</button>
+                  <span>{{ page }} / {{ totalPages }}</span>
+                  <button (click)="nextPage()" [disabled]="page === totalPages">Next</button>
+                  <a [href]='pdfSrc' target="_blank" download>DOWNLOAD FILE</a>
+                </div>
+                <div class="image-viewer">
+                  <pdf-viewer [(src)]="pdfSrc" 
+                  [show-all]="false"
+                      [page]="page"
+                      [show-borders]="true"
+                      [render-text] = "true"
+                      [external-link-target]="'blank'"
+                      [autoresize]="true"
+                      [original-size]="true"
+                      [fit-to-page]="true"
+                      (after-load-complete)="afterLoadComplete($event)"
+                ></pdf-viewer>
+                      </div>
+           
+                 <br>
+              </div>
+              <div *ngIf="isImage">
+                <h2>Image Viewer</h2>
+                <img [(src)]="imgSrc" alt="Image Attached" class="image-viewer">
+                <br>
+              </div>
+           
+      
+            </div>
+          </div>
+
+      
+      
+
         </div>
-      </div>
-      <div class="col-md-4">
-        <h1>Status</h1>
-      </div>
-      <div class="col-md-12">
+    
+      <div class="col-md-12" *ngIf="doc?.classification != 'Private'">
+        <ul>
+          <li *ngFor="let f of files; let i = index">{{f.file_name}} - 
+            <button type="button" mat-button color="warn" (click)="delete(f, i)"  matTooltip="Detached">
+            <fa-icon icon="trash"></fa-icon> </button>
+            <button type="button" mat-button color="accent" (click)="loadPdf(f.file_name)"  matTooltip="View">
+              <fa-icon icon="eye"></fa-icon>
+          </button>
+        </li>
+
+        </ul>
         <div *ngIf="isPDF">
           <h2>PDF Viewer</h2>
           <div *ngIf="isLoaded" style="text-align: center;">
@@ -31,14 +100,20 @@
             <button (click)="nextPage()" [disabled]="page === totalPages">Next</button>
             <a [href]='pdfSrc' target="_blank" download>DOWNLOAD FILE</a>
           </div>
-          <pdf-viewer [(src)]="pdfSrc" 
-          [show-all]="false"
-              [page]="page"
-              [show-borders]="true"
-              [render-text] = "true"
-              [external-link-target]="'blank'"
-              (after-load-complete)="afterLoadComplete($event)"
-  ></pdf-viewer>
+          <div class="image-viewer">
+            <pdf-viewer [(src)]="pdfSrc" 
+            [show-all]="false"
+                [page]="page"
+                [show-borders]="true"
+                [render-text] = "true"
+                [external-link-target]="'blank'"
+                [autoresize]="true"
+                [original-size]="true"
+                [fit-to-page]="true"
+                (after-load-complete)="afterLoadComplete($event)"
+    ></pdf-viewer>
+          </div>
+     
      <br>
         </div>
         <div *ngIf="isImage">

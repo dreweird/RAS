@@ -1,0 +1,35 @@
+<div *ngIf="!params.node.group">
+    <button *ngIf="(isAdmin$ | async)"
+      type="button"
+      mat-button
+      (click)="upload()"
+      matTooltip="Upload File"
+    >
+      <fa-icon icon="upload"></fa-icon>
+    </button>
+    <button type="button" mat-button matTooltip="View">
+      <a [routerLink]="['/doc/document', params.data.id]" routerLinkActive="active"
+        ><fa-icon icon="eye"></fa-icon
+      ></a>
+    </button>
+
+    <button *ngIf="(isAdmin$ | async)"
+      type="button"
+      mat-button
+      color="accent"
+      (click)="edit()"
+      matTooltip="Edit"
+      
+    >
+      <fa-icon icon="edit"></fa-icon>
+    </button>
+    <button *ngIf="(isAdmin$ | async)"
+      type="button"
+      mat-button
+      color="warn"
+      (click)="delete()"
+      matTooltip="Delete"
+    >
+      <fa-icon icon="trash"></fa-icon>
+    </button>
+  </div>

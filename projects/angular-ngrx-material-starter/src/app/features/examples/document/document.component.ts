@@ -15,6 +15,22 @@ import {
   MatDialogRef,
   MAT_DIALOG_DATA
 } from '@angular/material/dialog';
+import {Location} from '@angular/common';
+
+import { ROUTE_ANIMATIONS_ELEMENTS } from '../../../core/animations/route.animations';
+import { Store, select } from '@ngrx/store';
+import { selectUserType } from '../../../core/auth/auth.selectors';
+import { of, Observable } from 'rxjs';
+import { LocalStorageService } from '../../../core/core.module';
+
+export interface DocInterface {
+  type: String;
+  code: String;
+  subject: String;
+  date: Date;
+  classification: String;
+}
+
 
 @Component({
   selector: 'anms-document',
@@ -23,8 +39,11 @@ import {
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class DocumentComponent implements OnInit {
-  doc: Object;
+
+  routeAnimationsElements = ROUTE_ANIMATIONS_ELEMENTS;
+  doc: DocInterface;
   files: Array<any>;
+  status: { status: string}[];
   code: String;
   pdfSrc: string | PDFSource | ArrayBuffer = '';
   imgSrc: String;
@@ -33,6 +52,12 @@ export class DocumentComponent implements OnInit {
   isLoaded: boolean = false;
   isImage: boolean = false;
   isPDF: boolean = false;
+  isResolution: boolean = false;
+  type: string;
+
+  backClicked() {
+    this._location.back();
+  }
 
   afterLoadComplete(pdfData: any) {
     this.totalPages = pdfData.numPages;
@@ -48,9 +73,11 @@ export class DocumentComponent implements OnInit {
   }
 
   loadPdf(file_name) {
-    let url = 'http://localhost:4200/assets/' + file_name;
+    let url = 'http://172.16.128.38:3800/pdf/' + file_name;
+     //let url = 'http://localhost:4200/assets/' + file_name;
     let extension = url.split('.').pop();
-    if (extension === 'pdf') {
+    console.log(extension);
+    if (extension === 'pdf' || extension === 'PDF') {
       this.isPDF = true;
       this.isImage = false;
       this.pdfSrc = url;
@@ -69,6 +96,8 @@ export class DocumentComponent implements OnInit {
     dialogRef.afterClosed().subscribe(result => {
       if (result) {
         this.files.splice(index, 1);
+        this.isImage = false;
+        this.isPDF = false;
         this.cd.markForCheck();
         this._snackBar.open('Detached files successfully', 'Ok', {
           duration: 2000
@@ -77,35 +106,45 @@ export class DocumentComponent implements OnInit {
     });
   }
 
+
+
+  user: any;
+  isNewType = 0;
   constructor(
     private router: Router,
     private route: ActivatedRoute,
     private docService: PmisService,
     private cd: ChangeDetectorRef,
     public dialog: MatDialog,
-    private _snackBar: MatSnackBar
+    private _snackBar: MatSnackBar,
+    private _location: Location,
+    private localStorage: LocalStorageService
   ) {
     this.code = this.route.snapshot.paramMap.get('id');
+    this.user = this.localStorage.getItem('AUTH');
   }
 
+
   ngOnInit(): void {
-    this.getDocument(this.code);
-    this.findFiles(this.code);
+    console.log(this.code);
+     this.getDocument(this.code);
+     this.findFiles(this.code);
   }
+
 
   findFiles(code) {
     this.docService.findFiles(code).subscribe((result: any) => {
       this.files = result;
       this.cd.markForCheck();
-      console.log(result);
     });
   }
 
-  getDocument(code): void {
-    this.docService.findDoc(code).subscribe(result => {
+  getDocument(id): void {
+    this.docService.getDocuments(id).subscribe((result: any) => {
       this.doc = result;
-      this.cd.markForCheck();
+      if(this.doc.type == 'DOD' || this.doc.type == 'MOA') this.isNewType = 1;
       console.log(result);
+      this.cd.markForCheck();
     });
   }
 }
@@ -141,7 +180,15 @@ export class DetachedFileDialog {
     this.docService.detachedFile(this.data.file.id).subscribe((result: any) => {
       if (result.success) {
         this.dialogRef.close(true);
+        this.deleteUploadedFile();
       }
     });
   }
+
+  deleteUploadedFile(){
+    this.docService.deleteUploadedFile(this.data.file.file_name).subscribe((result: any) => {
+      console.log(result);
+    });
+  }
 }
+

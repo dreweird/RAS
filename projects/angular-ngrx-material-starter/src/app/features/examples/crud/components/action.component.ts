@@ -1,11 +1,14 @@
 import { Component, Inject } from '@angular/core';
 import { ICellRendererAngularComp } from 'ag-grid-angular';
+import { Store, select } from '@ngrx/store';
+import { selectUserType } from '../../../../core/auth/auth.selectors';
+import { Observable, of } from 'rxjs';
 
 @Component({
   selector: 'app-action-component',
   template: `
     <div *ngIf="!params.node.group">
-      <button
+      <button *ngIf="(isAdmin$ | async)"
         type="button"
         mat-button
         (click)="upload()"
@@ -18,7 +21,7 @@ import { ICellRendererAngularComp } from 'ag-grid-angular';
           ><fa-icon icon="eye"></fa-icon
         ></a>
       </button>
-      <button
+      <button *ngIf="(isAdmin$ | async)"
         type="button"
         mat-button
         color="accent"
@@ -27,7 +30,7 @@ import { ICellRendererAngularComp } from 'ag-grid-angular';
       >
         <fa-icon icon="edit"></fa-icon>
       </button>
-      <button
+      <button *ngIf="(isAdmin$ | async)"
         type="button"
         mat-button
         color="warn"
@@ -42,8 +45,17 @@ import { ICellRendererAngularComp } from 'ag-grid-angular';
 export class ActionComponent implements ICellRendererAngularComp {
   params: any;
   code;
+  isAdmin$: Observable<Boolean>;
 
-  constructor() {}
+  constructor(private store: Store) {
+  this.store.pipe(select(selectUserType)).subscribe((res: any) => {
+    if(res == 1) {
+      this.isAdmin$ = of(true);
+    }else {
+      this.isAdmin$ = of(false);
+    }
+  });
+  }
 
   agInit(params: any): void {
     this.params = params;

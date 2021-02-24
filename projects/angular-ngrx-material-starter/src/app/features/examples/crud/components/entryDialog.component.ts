@@ -14,6 +14,7 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 import { map, catchError } from 'rxjs/operators';
 import { HttpEventType, HttpErrorResponse } from '@angular/common/http';
 import { of } from 'rxjs/internal/observable/of';
+import { MatDatepickerInputEvent } from '@angular/material/datepicker';
 
 @Component({
   templateUrl: './entryDialog.component.html',
@@ -30,12 +31,16 @@ export class entryDialog implements OnInit {
   add: Boolean = false;
   upload: Boolean = false;
 
+
   @ViewChild('fileUpload', { static: false }) fileUpload: ElementRef;
   files = [];
 
+
+
+
   addFile(file) {
     this.rafcService.add_files(file).subscribe(resilt => {
-      console.log(resilt);
+      // console.log(resilt);
     });
   }
 
@@ -82,11 +87,11 @@ export class entryDialog implements OnInit {
   onClick() {
     const fileUpload = this.fileUpload.nativeElement;
     fileUpload.onchange = () => {
-      console.log(fileUpload.files.length);
+     // console.log(fileUpload.files.length);
       for (let index = 0; index < fileUpload.files.length; index++) {
         const file = fileUpload.files[index];
         this.files.push({ data: file, inProgress: false, progress: 0 });
-        console.log(this.files);
+      //  console.log(this.files);
       }
       this.uploadFiles();
     };
@@ -102,7 +107,7 @@ export class entryDialog implements OnInit {
     if (this.data.add) this.add = this.data.add;
     if (this.data.delete) this.delete = this.data.delete;
     if (this.data.upload) this.upload = this.data.upload;
-    console.log(this.data);
+   // console.log(this.data);
     this.editData = this.data.data;
     this.entryForm = new FormGroup({
       code: new FormControl(''),
@@ -112,49 +117,87 @@ export class entryDialog implements OnInit {
       province: new FormControl(''),
       municipal: new FormControl(''),
       date_conducted: new FormControl(''),
-      status: new FormControl(''),
+      classification: new FormControl(''),
       remarks: new FormControl(''),
-      deadline: new FormControl(''),
-      date_submitted: new FormControl(''),
-      file: new FormControl('')
+      res_title: new FormControl(''),
+      res_number: new FormControl(''),
+      res_date_endorsement: new FormControl(''),
+      res_endorsed_to: new FormControl(''),
+      adopted: new FormControl(''),
+      date_adopted: new FormControl('')
     });
     if (this.data.data) {
-      this.edit = true;
+      this.edit = true;;
+      console.log(this.editData);
       this.entryForm.patchValue({
         code: this.editData.code,
         type: this.editData.type,
-        year: this.editData.year,
+        year: (this.editData.year).toString(),
         afc: this.editData.afc,
         province: this.editData.province,
         municipal: this.editData.municipal,
         date_conducted: this.editData.date_conducted,
-        status: this.editData.status,
+        classification: this.editData.classification,
         remarks: this.editData.remarks,
-        deadline: this.editData.deadline,
-        date_submitted: this.editData.date_submitted,
-        file: this.editData.file
+        res_title: this.editData.res_title,
+        res_number: this.editData.res_number,
+        res_date_endorsement: this.editData.res_date_endorsement,
+        res_endorsed_to: this.editData.res_endorsed_to,
+        adopted: this.editData.adopted,
+        date_adopted: this.editData.date_adopted
       });
     }
   }
   ngOnInit() {}
+  
+  deadline: any;
+
+  addDeadlineResolution(event){
+    let date = new Date(event.setDate(event.getDate() + 30));
+    this.deadline = ((date.getMonth() > 8) ? (date.getMonth() + 1) : ('0' + (date.getMonth() + 1))) + '/' + ((date.getDate() > 9) ? date.getDate() : ('0' + date.getDate())) + '/' + date.getFullYear();    
+  
+  }
+
+  addDeadlineMeetings(event){
+    let date = new Date(event.setDate(event.getDate() + 10));
+    this.deadline = ((date.getMonth() > 8) ? (date.getMonth() + 1) : ('0' + (date.getMonth() + 1))) + '/' + ((date.getDate() > 9) ? date.getDate() : ('0' + date.getDate())) + '/' + date.getFullYear();    
+  
+  }
+  addEvent(event){ 
+    let date = new Date(event);
+
+    if(this.entryForm.value.type === 'Resolution'){
+      this.addDeadlineResolution(date);
+     }else if(this.entryForm.value.type === 'Highlights of Meeting'){
+      this.addDeadlineMeetings(date);
+    }else{
+      alert('Please select Document type')
+    }
+    
+  }
+
 
   insertDoc() {
-    console.log(this.entryForm.value);
     this.rafcService.insertDoc(this.entryForm.value).subscribe(result => {
-      console.log(result);
       if (result) {
         this.dialogRef.close();
-        this._snackBar.open('New Document inserted', 'Ok');
+        this._snackBar.open('New Document inserted', 'Ok', {duration: 2000});
         this.data.gridApi.applyTransaction({ add: [result] });
       }
     });
   }
 
+
   updateDoc() {
+
+    this.entryForm.value.date_conducted = moment(this.entryForm.value.date_conducted).format('YYYY-MM-DD');
+    this.entryForm.value.res_date_endorsement = moment(this.entryForm.value.res_date_endorsement).format('YYYY-MM-DD');
+    this.entryForm.value.date_adopted = moment(this.entryForm.value.date_adopted).format('YYYY-MM-DD');
+    console.log(this.entryForm.value);
     this.rafcService.updateDoc(this.entryForm.value).subscribe(result => {
       if (result) {
         this.dialogRef.close();
-        this._snackBar.open('Document updated', 'Ok');
+        this._snackBar.open('Document updated', 'Ok', {duration: 2000});
         this.data.gridApi.applyTransaction({ update: [this.entryForm.value] });
       }
     });
@@ -164,7 +207,7 @@ export class entryDialog implements OnInit {
     this.rafcService.removeDoc(this.editData.code).subscribe(result => {
       if (result) {
         this.dialogRef.close();
-        this._snackBar.open('Document removed', 'Ok');
+        this._snackBar.open('Document removed', 'Ok', {duration: 2000});
         this.data.gridApi.applyTransaction({ remove: [this.editData] });
       }
     });

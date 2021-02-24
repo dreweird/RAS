@@ -6,6 +6,10 @@
       <div class="branding"><img [src]="logo" />
         <span>RAFC-DMS</span></div>
       <mat-nav-list>
+        <a mat-list-item  (click)="sidenav.close()" routerLink="about"
+        routerLinkActive="active">About</a>
+        <a mat-list-item  (click)="sidenav.close()" routerLink="search"
+        routerLinkActive="active">Search</a>
       <span *ngFor="let item of navigationSideMenu">
         <a mat-list-item *ngIf="(isAuthenticated$ | async)" (click)="sidenav.close()" [routerLink]="[item.link]"
         routerLinkActive="active">
@@ -28,10 +32,14 @@
 
           <span routerLink="" class="branding spacer center d-inline d-sm-none">
             <img [src]="logo" /></span>
-          <span routerLink="" class="branding spacer center d-none d-sm-inline d-md-none"><img [src]="logo" /> RAFC-DMS</span>
-          <span routerLink="" class="branding spacer d-none d-md-inline"><img [src]="logo" /> RAFC Document Monitoring System</span>
+          <span routerLink="" class="branding spacer center d-none d-sm-inline d-md-none"><img [src]="logo" /> RAS</span>
+          <span routerLink="" class="branding spacer d-none d-md-inline"><img [src]="logo" /> Records Archiving System</span>
 
           <span class="d-none d-md-inline">
+              <button mat-button class="nav-button" routerLink="about"
+               routerLinkActive="active">About</button>
+               <button mat-button class="nav-button" routerLink="search"
+               routerLinkActive="active">Search</button>
             <span *ngFor="let item of navigation">
               <button mat-button class="nav-button" [routerLink]="[item.link]"
               *ngIf="(isAuthenticated$ | async)" routerLinkActive="active">
@@ -89,35 +97,6 @@
       </div>
 
       <div class="footer">
-        <div class="row">
-          <div class="col-sm-12 links">
-            <a href="" target="_blank">
-              <fa-icon [icon]="['fab','github']"></fa-icon>
-              <span>Github</span>
-            </a>
-            <a href="" target="_blank">
-              <fa-icon [icon]="['fab','medium-m']"></fa-icon>
-              <span>Medium</span>
-            </a>
-            <a href="" target="_blank">
-              <fa-icon [icon]="['fab','twitter']"></fa-icon>
-              <span>Twitter</span>
-            </a>
-            <a href=""
-               target="_blank">
-              <fa-icon [icon]="['fab','youtube']"></fa-icon>
-              <span>Youtube</span>
-            </a>
-            <a href="" target="_blank">
-              <fa-icon [icon]="['fab','instagram']"></fa-icon>
-              <span>Instagram</span>
-            </a>
-            <a href="" target="_blank">
-              <fa-icon icon="play-circle"></fa-icon>
-              <span>Slides</span>
-            </a>
-          </div>
-        </div>
         <div class="row">
           <div class="col-12 signature">
             &#169; <span class="year">{{year}}</span> - DA Caraga - ICTU

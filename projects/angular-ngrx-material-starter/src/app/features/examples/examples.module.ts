@@ -9,7 +9,7 @@ import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 import { SharedModule } from '../../shared/shared.module';
 import { environment } from '../../../environments/environment';
 import { MomentModule } from 'ngx-moment';
-import { AgGridModule } from 'ag-grid-angular';
+import { AgGridModule } from '@ag-grid-community/angular';
 import { NgxMatSelectSearchModule } from 'ngx-mat-select-search';
 
 import { FEATURE_NAME, reducers } from './examples.state';
@@ -22,7 +22,7 @@ import { StockMarketEffects } from './stock-market/stock-market.effects';
 import { StockMarketService } from './stock-market/stock-market.service';
 import { ParentComponent } from './theming/parent/parent.component';
 import { ChildComponent } from './theming/child/child.component';
-import { CrudComponent } from './crud/components/crud.component';
+// import { CrudComponent } from './crud/components/crud.component';
 import { BooksEffects } from './crud/books.effects';
 import { FormComponent } from './form/components/form.component';
 import { FormEffects } from './form/form.effects';
@@ -34,7 +34,6 @@ import { UserService } from './simple-state-management/user.service';
 import { ElementsComponent } from './elements/elements.component';
 import { entryDialog } from './crud/components/entryDialog.component';
 // import { FileUploadModule } from 'ng2-file-upload';
-import { ActionComponent } from './crud/components/action.component';
 import {
   DocumentComponent,
   DetachedFileDialog
@@ -44,6 +43,18 @@ export function HttpLoaderFactory(http: HttpClient) {
   return new TranslateHttpLoader(http, `./assets/i18n/examples/`, '.json');
 }
 import { MatDialogModule } from '@angular/material/dialog';
+import { ProvincePipe, MunicipalPipe } from './crud/components/province.pipe';
+import { EntryDialogComponent } from './entry-dialog/entry-dialog.component';
+import { ActionComponent } from './action/action.component';
+import { TravelOrderComponent } from './travel-order/travel-order.component';
+import { MemorandumComponent } from './memorandum/memorandum.component';
+import { SpecialOrderComponent } from './special-order/special-order.component';
+import { NoticeOfMeetingComponent } from './notice-of-meeting/notice-of-meeting.component';
+import { AdvisoryComponent } from './advisory/advisory.component';
+import { OthersComponent } from './others/others.component';
+import { SummaryComponent } from './summary/summary.component';
+import { MoaComponent } from './moa/moa.component';
+import { DodComponent } from './dod/dod.component';
 
 @NgModule({
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
@@ -80,7 +91,7 @@ import { MatDialogModule } from '@angular/material/dialog';
     ParentComponent,
     ChildComponent,
     AuthenticatedComponent,
-    CrudComponent,
+   // CrudComponent,
     FormComponent,
     NotificationsComponent,
     UserComponent,
@@ -88,10 +99,22 @@ import { MatDialogModule } from '@angular/material/dialog';
     entryDialog,
     ActionComponent,
     DocumentComponent,
-    DetachedFileDialog
+    DetachedFileDialog,
+    ProvincePipe,
+    MunicipalPipe,
+    EntryDialogComponent,
+    TravelOrderComponent,
+    MemorandumComponent,
+    SpecialOrderComponent,
+    NoticeOfMeetingComponent,
+    AdvisoryComponent,
+    OthersComponent,
+    SummaryComponent,
+    MoaComponent,
+    DodComponent
   ],
   providers: [StockMarketService, UserService],
-  entryComponents: [entryDialog, DetachedFileDialog]
+  entryComponents: [EntryDialogComponent, DetachedFileDialog]
 })
 export class ExamplesModule {
   constructor() {}

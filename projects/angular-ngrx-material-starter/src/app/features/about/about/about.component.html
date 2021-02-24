@@ -1,40 +1,45 @@
 <div class="background">
   <div class="gradient">
     <div class="container">
-      <h1>RAFC Document Monitoring System</h1>
-      <!-- <div class="actions">
-        <a [ngClass]="routeAnimationsElements" mat-raised-button class="actions-main" color="primary" routerLink="../dashboard">
-         RAFC Dashboard
+      <h1>Records Archiving System</h1>
+      <div class="actions">
+        <a [ngClass]="routeAnimationsElements" mat-raised-button class="actions-main" color="primary" routerLink="../search">
+           Go to Search
         </a>
-        <a mat-raised-button class="actions-main" color="accent" routerLink="../beds" [ngClass]="routeAnimationsElements">
-         BEDs
-        </a>
-        <a mat-raised-button class="actions-main" color="warn" routerLink="../settings" [ngClass]="routeAnimationsElements">
-          {{ 'anms.about.change-theme' | translate }}
-        </a>
-        <br>
-    
-        
-      </div> -->
+        <a [ngClass]="routeAnimationsElements" mat-raised-button class="actions-main" color="accent" routerLink="../doc">
+          Documents
+       </a>
+      </div>
+      
+
       <div class="get-started" [ngClass]="routeAnimationsElements">
-        <h2>About RAFC Document Monitoring System</h2>
-          <p>RAFC-DMS is a sytematic approach for gathering, monitoring and tracking of Regional Agriculture and Fisheries Council (RAFC)
-            related documents in Caraga Region. It serves as a repository of documents at the same time tracking tool of resolutions, highlights or minutes of meetings,
-            memorandum, special orders and other documents. It also tracks the submission of documents from the different Agriculture and Fisheries Councils (AFCs) in 
-            the Caraga Region.
+        <h2>About RAS</h2>
+          <p>
+            This system allows the users to upload electronic documents for filing and
+            retrieval. It serves as a document repository of the department.
           </p>
+          <div class="follow-releases" [ngClass]="routeAnimationsElements">
+            <h2>System Updates</h2>
+            <h4>Version 2.0</h4>
+            <ul>
+              <li>Row Grouping was integrated in the table </li>
+              <li>Row Count Display was added in the table</li>
+              <li>Search Result View was enabled</li>    
+            </ul>
+            <h4>Version 1.0</h4>
+                <ul>
+                  <li>Added Login Page </li>
+                  <li>Added CRUD Functions with File Uploader</li>
+                  <li>Viewing of attached files</li>
+                  <li>Search Component</li>
+                </ul>
+                
+          </div>
       </div>
     </div>
+ 
+ 
   </div>
+
 </div>
-<div class="container">
-  <div class="follow-releases" [ngClass]="routeAnimationsElements">
-    <h2>System Updates</h2>
-    <h4>Version 1.0</h4>
-        <ul>
-          <li>Added Login Page </li>
-          <li>Added Dashboard </li>
-        </ul>
-        
-  </div>
-</div>
+

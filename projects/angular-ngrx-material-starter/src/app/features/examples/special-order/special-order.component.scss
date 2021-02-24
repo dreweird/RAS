@@ -1,0 +1,29 @@
+h1 {
+  margin: 0 0 20px 0;
+  text-transform: uppercase;
+  position:relative;
+}
+
+mat-card {
+  margin: 0 0 10px 0;
+  cursor: pointer;
+}
+
+.mat-fab {
+  .fa-icon {
+    position: relative;
+    top: 4px;
+  }
+}
+
+.add {
+  margin: 0 0 0;
+  display: block;
+}
+
+h1 span {
+  position:absolute;
+  bottom:0;
+  right:0;
+  font-size: 0.5em;
+}

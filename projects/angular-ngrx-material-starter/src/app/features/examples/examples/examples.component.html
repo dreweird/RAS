@@ -1,4 +1,5 @@
 <nav mat-tab-nav-bar class="d-none d-sm-flex">
+  <div *ngIf="(isAuthenticated$ | async)"> 
   <a mat-tab-link
      *ngFor="let e of examples"
      [routerLink]="e.link"
@@ -7,16 +8,21 @@
      [disabled]="e.auth && !(isAuthenticated$ | async)">
     {{e.label | translate}}
   </a>
+  </div>
 </nav>
 
 <nav class="nav-responsive d-sm-none d-flex justify-content-center">
     <mat-select [placeholder]="'anms.examples.title' | translate" [value]="'todos'">
-      <mat-option *ngFor="let e of examples"
+      <div *ngIf="(isAuthenticated$ | async)"> 
+        <mat-option *ngFor="let e of examples"
         [value]="e"
         [routerLink]="e.link"
         [disabled]="e.auth && !(isAuthenticated$ | async)">
           {{e.label | translate}}
+  
       </mat-option>
+      </div>
+  
     </mat-select>
 </nav>
 
