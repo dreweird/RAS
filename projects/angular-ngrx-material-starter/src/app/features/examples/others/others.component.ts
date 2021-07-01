@@ -87,9 +87,10 @@ export class OthersComponent implements OnInit {
         width: 300,
         filter: 'agTextColumnFilter',
       },
+      
       {
         headerName: 'Actions',
-        width: 270,
+        width: 400,
         cellRendererFramework: ActionComponent
       }
     ];

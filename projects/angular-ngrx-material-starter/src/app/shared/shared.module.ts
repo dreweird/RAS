@@ -23,6 +23,7 @@ import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatNativeDateModule } from '@angular/material/core';
 import { MatGridListModule } from '@angular/material/grid-list';
 import { MatProgressBarModule } from '@angular/material/progress-bar';
+import {NgxMaterialTimepickerModule} from 'ngx-material-timepicker';
 
 import {
   FontAwesomeModule,
@@ -48,7 +49,8 @@ import {
   faBook,
   faUpload,
   faEye,
-  faSearch
+  faSearch,
+  faPaperclip
 } from '@fortawesome/free-solid-svg-icons';
 import { faMediumM, faGithub } from '@fortawesome/free-brands-svg-icons';
 
@@ -80,6 +82,7 @@ import { RtlSupportDirective } from './rtl-support/rtl-support.directive';
     MatDividerModule,
     MatGridListModule,
     MatProgressBarModule,
+    NgxMaterialTimepickerModule,
 
     FontAwesomeModule
   ],
@@ -115,6 +118,7 @@ import { RtlSupportDirective } from './rtl-support/rtl-support.directive';
     MatNativeDateModule,
     MatGridListModule,
     MatProgressBarModule,
+    NgxMaterialTimepickerModule,
 
     FontAwesomeModule,
 
@@ -147,7 +151,8 @@ export class SharedModule {
       faBook,
       faUpload,
       faEye,
-      faSearch
+      faSearch,
+      faPaperclip
     );
   }
 }

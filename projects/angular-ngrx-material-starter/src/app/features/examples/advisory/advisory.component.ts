@@ -132,7 +132,7 @@ export class AdvisoryComponent implements OnInit {
       },
       {
         headerName: 'Actions',
-        width: 270,
+        width: 400,
         cellRendererFramework: ActionComponent
       }
     ];

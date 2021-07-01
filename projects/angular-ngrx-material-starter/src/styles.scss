@@ -6,6 +6,7 @@
 @import '../../../node_modules/bootstrap/scss/tables';
 @import '../../../node_modules/ag-grid-community/src/styles/ag-grid.scss';
 @import '../../../node_modules/ag-grid-community/src/styles/ag-theme-alpine/sass/ag-theme-alpine-mixin.scss';
+@import "../../../node_modules/angular-calendar/css/angular-calendar.css";
 
 .ag-theme-alpine {
   @include ag-theme-alpine();
@@ -67,3 +68,12 @@ html, body {
   margin: 0;
   height: 100%;
 }
+.timepicker-overlay {
+  z-index: 10000000 !important;
+}
+
+.timepicker-backdrop-overlay {
+  z-index: 10000000 !important;
+}
+/* Importing Bootstrap SCSS file. */
+@import '~bootstrap/scss/bootstrap';

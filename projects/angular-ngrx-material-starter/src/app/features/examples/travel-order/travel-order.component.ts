@@ -132,25 +132,25 @@ export class TravelOrderComponent implements OnInit {
         {
           headerName: 'Name',
           field: 'subject',
-          width: 300,
+          width: 200,
           filter: 'agTextColumnFilter',
         },
         {
           headerName: 'Classification',
           field: 'classification',
-          width: 200,
+          width: 150,
           filter: 'agTextColumnFilter',
         },
         {
           headerName: 'Received by',
           field: 'received_by',
-          width: 300,
+          width: 200,
           filter: 'agTextColumnFilter',
         },
        
         {
           headerName: 'Actions',
-          width: 270,
+          width: 400,
           cellRendererFramework: ActionComponent
         }
       ];
@@ -162,7 +162,7 @@ export class TravelOrderComponent implements OnInit {
       this.components = { simpleCellRenderer: getSimpleCellRenderer() };
       this.autoGroupColumnDef = {
         headerName: 'Year - Month / T.O #',
-        minWidth: 350,
+        minWidth: 250,
         pinned: 'left',
         field: 'code',
         cellRendererParams: {

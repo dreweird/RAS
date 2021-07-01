@@ -7,6 +7,27 @@
     >
       <fa-icon icon="upload"></fa-icon>
     </button>
+
+    <button *ngIf="params.data.file_name != null"
+    type="button"
+    color="primary"
+    mat-button
+    matTooltip="With attached file"
+  >
+    <fa-icon icon="paperclip"></fa-icon>
+  </button>
+
+  <button *ngIf="params.data.file_name == null"
+  type="button"
+  mat-button
+  color="primary"
+  matTooltip="No attached file"
+>
+  <fa-icon icon="times"></fa-icon>
+</button>
+
+
+
     <button type="button" mat-button matTooltip="View">
       <a [routerLink]="['/doc/document', params.data.id]" routerLinkActive="active"
         ><fa-icon icon="eye"></fa-icon

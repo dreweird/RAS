@@ -33,6 +33,11 @@ const routes: Routes = [
       import('./features/search/search.module').then(m => m.SearchModule)
   },
   {
+    path: 'schedule',
+    loadChildren: () =>
+      import('./features/schedule/schedule.module').then(m => m.ScheduleModule)
+  },
+  {
     path: '**',
     redirectTo: 'about'
   }

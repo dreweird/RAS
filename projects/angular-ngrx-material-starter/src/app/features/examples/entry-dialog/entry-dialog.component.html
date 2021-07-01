@@ -14,7 +14,7 @@
   <div *ngIf="add || edit">
     <h3 mat-dialog-title *ngIf="!edit">Add Document</h3>
     <h3 mat-dialog-title *ngIf="edit">Update Document</h3>
-    <div *ngIf="courier; else doc">
+    <div *ngIf="isMoa; else doc">
       <form [formGroup]="entryForm">
       <div mat-dialog-content>
         <mat-form-field class="col-md-4">

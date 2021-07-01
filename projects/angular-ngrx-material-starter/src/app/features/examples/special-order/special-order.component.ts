@@ -136,12 +136,12 @@ export class SpecialOrderComponent implements OnInit {
       {
         headerName: 'Classification',
         field: 'classification',
-        width: 300,
+        width: 150,
         filter: 'agTextColumnFilter',
       },
       {
         headerName: 'Actions',
-        width: 270,
+        width: 400,
         cellRendererFramework: ActionComponent
       }
     ];

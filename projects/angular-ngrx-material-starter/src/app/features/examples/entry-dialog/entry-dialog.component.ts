@@ -121,6 +121,7 @@ export class EntryDialogComponent implements OnInit {
   }
 
   createFormPatch(data){
+    console.log(data);
     this.entryForm.patchValue({
       id: data.id,
       code: data.code,
@@ -215,7 +216,8 @@ export class EntryDialogComponent implements OnInit {
 
   updateDoc() {
     this.entryForm.value.date = moment(this.entryForm.value.date).format('YYYY-MM-DD');
-    this.entryForm.value.date_encoded = moment(this.entryForm.value.date_encoded).format('YYYY-MM-DD');
+    this.entryForm.value.date_encoded = moment(this.data.data.date_encoded).format('YYYY-MM-DD');
+    console.log(this.entryForm.value);
     if(this.isMoa)  this.entryForm.value.date_received = moment(this.entryForm.value.date_received).format('YYYY-MM-DD');
     this.rafcService.updateDoc(this.entryForm.value).subscribe(result => {
       if (result) {

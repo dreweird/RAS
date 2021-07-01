@@ -76,6 +76,11 @@ export class PmisService {
     return this.http.get(url);
   }
 
+  getAllSchedule() {
+    const url = `${this.apiRoot}/schedule`;
+    return this.http.get(url);
+  }
+
 
 
   getAllDocumentType(type: string): Observable<Document> {
@@ -91,13 +96,29 @@ export class PmisService {
     return this.http.post(url, { entries });
   }
 
+  insertSched(entries) {
+    const url = `${this.apiRoot}/schedule`;
+    return this.http.post(url, { entries });
+  }
+
+
   updateDoc(entries) {
     const url = `${this.apiRoot}/documents/` + entries.id;
     return this.http.put(url, { entries });
   }
 
+  updateSched(entries) {
+    const url = `${this.apiRoot}/schedule/` + entries.id;
+    return this.http.put(url, { entries });
+  }
+
   removeDoc(id) {
     const url = `${this.apiRoot}/documents/` + id;
+    return this.http.delete(url);
+  }
+
+  removeSched(id) {
+    const url = `${this.apiRoot}/schedule/` + id;
     return this.http.delete(url);
   }
 

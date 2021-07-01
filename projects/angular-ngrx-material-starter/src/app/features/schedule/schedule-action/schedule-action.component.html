@@ -1,0 +1,21 @@
+<div *ngIf="!params.node.group">
+    <button *ngIf="(isAdmin$ | async)"
+      type="button"
+      mat-button
+      color="accent"
+      (click)="edit()"
+      matTooltip="Edit"
+      
+    >
+      <fa-icon icon="edit"></fa-icon>
+    </button>
+    <button *ngIf="(isAdmin$ | async)"
+      type="button"
+      mat-button
+      color="warn"
+      (click)="delete()"
+      matTooltip="Delete"
+    >
+      <fa-icon icon="trash"></fa-icon>
+    </button>
+  </div>

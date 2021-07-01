@@ -1,0 +1,77 @@
+
+  <div *ngIf="add || edit">
+    <h3 mat-dialog-title *ngIf="!edit">Add Schedule</h3>
+    <h3 mat-dialog-title *ngIf="edit">Update Schedule</h3>
+
+ 
+      <form [formGroup]="entryForm" class="row">
+        <div mat-dialog-content>
+          <mat-form-field class="col-md-4">
+            <mat-label>Title:</mat-label>
+            <input matInput formControlName="title" required/>
+          </mat-form-field>
+          <mat-form-field class="col-md-4" >
+            <mat-label>Day Start:</mat-label>
+            <input matInput  [matDatepicker]="dp" formControlName="start" required/>
+            <mat-datepicker-toggle
+              matSuffix
+              [for]="dp"
+            ></mat-datepicker-toggle>
+            <mat-datepicker #dp></mat-datepicker>
+          </mat-form-field>
+
+
+          <mat-form-field class="col-md-4" >
+            <mat-label>Day End:</mat-label>
+            <input matInput [matDatepicker]="dp2" formControlName="end" required/>
+            <mat-datepicker-toggle
+              matSuffix
+              [for]="dp2"
+            ></mat-datepicker-toggle>
+            <mat-datepicker #dp2></mat-datepicker>
+          </mat-form-field>
+
+          <mat-form-field class="col-md-4">
+            <mat-label>Color:</mat-label>
+              <mat-select formControlName="color" required>
+                <mat-option value="red">red</mat-option>
+                <mat-option value="blue">blue</mat-option>
+                <mat-option value="yellow">yellow</mat-option>
+              </mat-select>
+          </mat-form-field>
+
+          <mat-form-field class="col-md-4">
+            <mat-label>All Day:</mat-label>
+              <mat-select formControlName="allDay" required>
+                <mat-option value="1">Yes</mat-option>
+                <mat-option value="0">No</mat-option>
+              </mat-select>
+          </mat-form-field>
+
+     
+
+      
+        </div>
+        <div mat-dialog-actions class="col-md-4">
+          <button mat-button (click)="onNoClick()">Cancel</button>
+          <button *ngIf="!edit"  (click)="insertSched()" mat-button [disabled]="!entryForm.valid">Save</button>
+          <button *ngIf="edit"  (click)="updateSched()" mat-button [disabled]="!entryForm.valid">Update</button>
+        </div>
+        </form>
+ 
+ 
+  </div>
+
+  <div *ngIf="delete">
+    <h3 mat-dialog-title>Delete Schedule</h3>
+    <div mat-dialog-content>
+      <p>Are you sure you want to delete the schedule:  
+       <b> {{title}}</b>? This action is irreversible.</p>
+    </div>
+    <div mat-dialog-actions>
+      <button mat-button (click)="onNoClick()">Cancel</button>
+      <button  (click)="removeSched()" mat-button>Remove</button>
+   </div>
+  </div>
+  
+
